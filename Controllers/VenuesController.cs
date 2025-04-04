@@ -58,6 +58,9 @@ namespace EventEaseApp2.Controllers
         {
             if (ModelState.IsValid)
             {
+
+                venue.ImageUrl = "https://i.pinimg.com/736x/4e/3f/ff/4e3fffebe422dc196d612d15ec443eaf.jpg";
+
                 _context.Add(venue);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -97,6 +100,7 @@ namespace EventEaseApp2.Controllers
             {
                 try
                 {
+                    venue.ImageUrl = "https://i.pinimg.com/736x/4e/3f/ff/4e3fffebe422dc196d612d15ec443eaf.jpg";
                     _context.Update(venue);
                     await _context.SaveChangesAsync();
                 }
