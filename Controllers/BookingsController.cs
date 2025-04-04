@@ -8,7 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using EventEaseApp2.Data;
 using EventEaseApp2.Models;
 
-namespace EventEaseApp2.Controllers
+
+namespace EventEase.Controllers
 {
     public class BookingsController : Controller
     {
@@ -22,8 +23,8 @@ namespace EventEaseApp2.Controllers
         // GET: Bookings
         public async Task<IActionResult> Index()
         {
-            var eventEaseApp2Context = _context.Booking.Include(b => b.Event).Include(b => b.Venue);
-            return View(await eventEaseApp2Context.ToListAsync());
+            var eventEaseContext = _context.Booking.Include(b => b.Event).Include(b => b.Venue);
+            return View(await eventEaseContext.ToListAsync());
         }
 
         // GET: Bookings/Details/5
@@ -49,8 +50,8 @@ namespace EventEaseApp2.Controllers
         // GET: Bookings/Create
         public IActionResult Create()
         {
-            ViewData["EventId"] = new SelectList(_context.Event, "EventId", "EventId");
-            ViewData["VenueId"] = new SelectList(_context.Venue, "VenueId", "VenueId");
+            ViewData["EventId"] = new SelectList(_context.Event, "EventId", "EventName");
+            ViewData["VenueId"] = new SelectList(_context.Venue, "VenueId", "VenueName");
             return View();
         }
 
@@ -59,7 +60,7 @@ namespace EventEaseApp2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("BookingId,EventId,VenueId,BookingDate")] Booking booking)
+        public async Task<IActionResult> Create([Bind("BookingId,BookingDate,VenueId,EventId")] Booking booking)
         {
             if (ModelState.IsValid)
             {
@@ -67,8 +68,8 @@ namespace EventEaseApp2.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EventId"] = new SelectList(_context.Event, "EventId", "EventId", booking.EventId);
-            ViewData["VenueId"] = new SelectList(_context.Venue, "VenueId", "VenueId", booking.VenueId);
+            ViewData["EventId"] = new SelectList(_context.Event, "EventId", "EventName", booking.EventId);
+            ViewData["VenueId"] = new SelectList(_context.Venue, "VenueId", "VenueName", booking.VenueId);
             return View(booking);
         }
 
@@ -85,8 +86,8 @@ namespace EventEaseApp2.Controllers
             {
                 return NotFound();
             }
-            ViewData["EventId"] = new SelectList(_context.Event, "EventId", "EventId", booking.EventId);
-            ViewData["VenueId"] = new SelectList(_context.Venue, "VenueId", "VenueId", booking.VenueId);
+            ViewData["EventId"] = new SelectList(_context.Event, "EventId", "EventName", booking.EventId);
+            ViewData["VenueId"] = new SelectList(_context.Venue, "VenueId", "VenueName", booking.VenueId);
             return View(booking);
         }
 
@@ -95,7 +96,7 @@ namespace EventEaseApp2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("BookingId,EventId,VenueId,BookingDate")] Booking booking)
+        public async Task<IActionResult> Edit(int id, [Bind("BookingId,BookingDate,VenueId,EventId")] Booking booking)
         {
             if (id != booking.BookingId)
             {
@@ -122,8 +123,8 @@ namespace EventEaseApp2.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EventId"] = new SelectList(_context.Event, "EventId", "EventId", booking.EventId);
-            ViewData["VenueId"] = new SelectList(_context.Venue, "VenueId", "VenueId", booking.VenueId);
+            ViewData["EventId"] = new SelectList(_context.Event, "EventId", "EventName", booking.EventId);
+            ViewData["VenueId"] = new SelectList(_context.Venue, "VenueId", "VenueName", booking.VenueId);
             return View(booking);
         }
 
